@@ -52,6 +52,8 @@ jobs:
 #         run: cargo install cross
         
       - name: setting up var URL
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
           URL=$(echo "$GITHUB_CONTEXT" | jq .event.commits[].message) 
           echo "URL=$URL" >> $GITHUB_ENV
