@@ -39,17 +39,18 @@ jobs:
         run: |
           echo "$GITHUB_CONTEXT"
           echo ${{ github.event.pull_request.title }}
+          
+      - name: Just Extract GitHub context .event.commits
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo ${{ github.event.commits }}
+          
+      - name: Just Extract GitHub context .event.commits
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo ${{ github.event.commits[3] }}
+          
         
-      - name: Just Extract GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: |
-          echo ${{ github.event.pull_request.title }}
-          
-      - name: Just Extract GitHub context .events
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: |
-          echo ${{ github.event.pull_request.title.events }}
-          
         
