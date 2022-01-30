@@ -72,10 +72,10 @@ jobs:
         run: | # if windows, don't forget to add .exe in the upload
           git clone $URL
           cd $NAME
-          cross build 
+          cross build --target x86_64-pc-windows-gnu
 
       - uses: actions/upload-artifact@v2
         with:
           name: ${{env.NAME}}
-          path: ${{env.NAME}}/target/debug/${{env.NAME}}
+          path: ${{env.NAME}}/target/debug/${{env.NAME}}.exe
       
