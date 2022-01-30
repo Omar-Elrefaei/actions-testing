@@ -22,10 +22,9 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - uses: actions-rs/cargo@v1
-        with: 
-          use-cross: true
-          command: check
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
 
       # - name: Dump GitHub context
       #   env:
@@ -43,6 +42,26 @@ jobs:
       - name: cargo version
         run: cargo --version
         
+      - name: cargo version
+        run: cargo --version
         
+
+
       - name: cross version
         run: cross --version
+        
+        
+      - name: git clone and cargo compile
+        run: |
+          git clone https://github.com/theryangeary/choose
+          cd choose
+          cargo build
+      
+      - name: install cross
+        run: cargo install cross
+          
+      - name: git clone and cross compile
+        run: |
+          git clone https://github.com/theryangeary/choose
+          cd choose
+          cross build
