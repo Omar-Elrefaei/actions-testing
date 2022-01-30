@@ -74,8 +74,13 @@ jobs:
           cd $NAME
           cross build --target x86_64-pc-windows-gnu
 
+#       - uses: actions/upload-artifact@v2
+#         with:
+#           name: ${{env.NAME}}
+#           path: ${{env.NAME}}/target/debug/${{env.NAME}}
+          
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{env.NAME}}
-          path: ${{env.NAME}}/target/debug/${{env.NAME}}.exe
+          name: ${{env.NAME}}.exe
+          path: ${{env.NAME}}/target/x86_64-pc-windows-gnu/debug/${{env.NAME}}.exe
       
