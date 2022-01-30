@@ -47,8 +47,8 @@ jobs:
         
 
 
-      - name: cross version
-        run: cross --version
+#       - name: cross version
+#         run: cross --version
         
         
       - name: git clone and cargo compile
