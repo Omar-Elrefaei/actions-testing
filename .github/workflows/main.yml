@@ -66,21 +66,35 @@ jobs:
           echo NAME=$NAME >> $GITHUB_ENV
 
           
+#       - name: git clone and cross compile
+#         env:
+#           GITHUB_CONTEXT: ${{ toJson(github) }}
+#         run: | # if windows, don't forget to add .exe in the upload
+#           git clone $URL
+#           cd $NAME
+#           cross build --target x86_64-pc-windows-gnu
+
+# #       - uses: actions/upload-artifact@v2
+# #         with:
+# #           name: ${{env.NAME}}
+# #           path: ${{env.NAME}}/target/debug/${{env.NAME}}
+          
+#       - uses: actions/upload-artifact@v2
+#         with:
+#           name: ${{env.NAME}}-win-debug
+#           path: ${{env.NAME}}/target/x86_64-pc-windows-gnu/debug/${{env.NAME}}.exe
+
       - name: git clone and cross compile
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: | # if windows, don't forget to add .exe in the upload
           git clone $URL
           cd $NAME
-          cross build --target x86_64-pc-windows-gnu
+          cross build --target x86_64-pc-windows-gnu --release
 
-#       - uses: actions/upload-artifact@v2
-#         with:
-#           name: ${{env.NAME}}
-#           path: ${{env.NAME}}/target/debug/${{env.NAME}}
           
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{env.NAME}}-win-debug
-          path: ${{env.NAME}}/target/x86_64-pc-windows-gnu/debug/${{env.NAME}}.exe
+          name: ${{env.NAME}}-win-release
+          path: ${{env.NAME}}/target/x86_64-pc-windows-gnu/release/${{env.NAME}}.exe
       
