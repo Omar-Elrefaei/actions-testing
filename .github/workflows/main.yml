@@ -53,12 +53,12 @@ jobs:
         
       - name: setting up var URL
         run: |
-          URL=$(echo "$GITHUB_CONTEXT" | jq .event.commits[].message }}) 
+          URL=$(echo "$GITHUB_CONTEXT" | jq .event.commits[].message) 
           echo "URL=$URL" >> $GITHUB_ENV
      
       - name: setting up var NAME
         run: |
-          NAME=$(echo $URL | awk -F "/" '{ print $5 }') >> $GITHUB_ENV
+          NAME=$(echo $URL | awk -F "/" '{ print $5 }') 
           echo "NAME=$NAME" >> $GITHUB_ENV
 
           
