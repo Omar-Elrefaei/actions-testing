@@ -42,9 +42,6 @@ jobs:
         
       - name: cargo version
         run: cargo --version
-        
-      - name: install cross
-        run: cargo install cross
 
       - name: cross version
         run: cross --version
