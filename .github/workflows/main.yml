@@ -81,6 +81,6 @@ jobs:
           
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{env.NAME}}.exe
+          name: ${{env.NAME}}-win-debug
           path: ${{env.NAME}}/target/x86_64-pc-windows-gnu/debug/${{env.NAME}}.exe
       
