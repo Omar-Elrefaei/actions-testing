@@ -52,7 +52,15 @@ jobs:
           cd choose
           cross build
 
-      - name: cross compile to windows
-        run: |
-          cd choose
-          cross build --target x86_64-pc-windows-gnu
+      - uses: actions/upload-artifact@v2
+        with:
+          name: binary
+          path: choose/target/debug/choose
+      
+      - name: Cache cross
+        uses: actions/cache@v2.1.7
+        with:
+          # A list of files, directories, and wildcard patterns to cache and restore
+          path: ~/.cargo/bin/cross
+          # An explicit key for restoring and saving the cache
+          key: cross1
