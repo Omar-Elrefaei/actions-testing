@@ -25,6 +25,7 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
+          use-cross: true
 
       # - name: Dump GitHub context
       #   env:
