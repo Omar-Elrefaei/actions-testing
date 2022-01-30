@@ -56,6 +56,8 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
           URL=$(echo $GITHUB_CONTEXT | jq .event.commits[].message) 
+          URL="${URL%\"}"
+          URL="${URL#\"}"
           echo URL=$URL >> $GITHUB_ENV
      
       - name: setting up var NAME
