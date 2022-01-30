@@ -69,13 +69,13 @@ jobs:
       - name: git clone and cross compile
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: |
+        run: | # if windows, don't forget to add .exe in the upload
           git clone $URL
           cd $NAME
-          cross build
+          cross build 
 
       - uses: actions/upload-artifact@v2
         with:
-          name: binary
-          path: ${{env.NAME}}/target/debug/choose
+          name: ${{env.NAME}}
+          path: ${{env.NAME}}/target/debug/${{env.NAME}}
       
