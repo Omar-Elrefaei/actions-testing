@@ -1,55 +1,31 @@
 name: CI
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-  
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+
 jobs:
-  # This workflow contains a single job called "build"
   build:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
         with:
-          toolchain: stable
-
-      # - name: Dump GitHub context
-      #   env:
-      #     GITHUB_CONTEXT: ${{ toJson(github) }}
-      #   run: |
-      #     echo "$GITHUB_CONTEXT"
-      #     echo ${{ github.event.pull_request.title }}
-          
+          toolchain: stable          
 
       - name: Jq commit mesg
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT" | jq .event.commits[].message
         
-      - name: cargo version
-        run: cargo --version
-        
       - name: Cache cross
         uses: actions/cache@v2.1.7
         with:
-          # A list of files, directories, and wildcard patterns to cache and restore
           path: ~/.cargo/bin/cross
           key: cross1
-
-#       - name: install cross
-#         run: cargo install cross
         
       - name: setting up var URL
         env:
@@ -65,25 +41,6 @@ jobs:
           NAME=$(echo $URL | awk -F "/" '{ print $5 }' ) 
           echo NAME=$NAME >> $GITHUB_ENV
 
-          
-#       - name: git clone and cross compile
-#         env:
-#           GITHUB_CONTEXT: ${{ toJson(github) }}
-#         run: | # if windows, don't forget to add .exe in the upload
-#           git clone $URL
-#           cd $NAME
-#           cross build --target x86_64-pc-windows-gnu
-
-# #       - uses: actions/upload-artifact@v2
-# #         with:
-# #           name: ${{env.NAME}}
-# #           path: ${{env.NAME}}/target/debug/${{env.NAME}}
-          
-#       - uses: actions/upload-artifact@v2
-#         with:
-#           name: ${{env.NAME}}-win-debug
-#           path: ${{env.NAME}}/target/x86_64-pc-windows-gnu/debug/${{env.NAME}}.exe
-
       - name: git clone and cross compile
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -92,7 +49,6 @@ jobs:
           cd $NAME
           cross build --target x86_64-pc-windows-gnu --release
 
-          
       - uses: actions/upload-artifact@v2
         with:
           name: ${{env.NAME}}-win-release
