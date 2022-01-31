@@ -3,9 +3,6 @@ name: CI
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
 
 jobs:
   build:
@@ -16,18 +13,21 @@ jobs:
         with:
           toolchain: stable          
 
+      # A sample of how extract a var from github metadata
       - name: Jq commit mesg
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT" | jq .event.commits[].message
         
+      # Cache to avoide `cargo install cross`
       - name: Cache cross
         uses: actions/cache@v2.1.7
         with:
           path: ~/.cargo/bin/cross
           key: cross1
         
-      - name: setting up var URL
+      # Get the URL from time commit title
+      - name: setting up env var URL
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
@@ -36,7 +36,8 @@ jobs:
           URL="${URL#\"}"
           echo URL=$URL >> $GITHUB_ENV
      
-      - name: setting up var NAME
+      # Get the project name
+      - name: setting up env var NAME
         run: |
           NAME=$(echo $URL | awk -F "/" '{ print $5 }' ) 
           echo NAME=$NAME >> $GITHUB_ENV
@@ -44,7 +45,7 @@ jobs:
       - name: git clone and cross compile
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: | # if windows, don't forget to add .exe in the upload
+        run: |
           git clone $URL
           cd $NAME
           cross build --target x86_64-pc-windows-gnu --release
